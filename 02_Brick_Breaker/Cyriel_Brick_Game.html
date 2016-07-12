@@ -23,6 +23,9 @@ var paddleX = 400;
 
 var canvas, canvasContext;
 
+var mouseX = 0;
+var mouseY = 0;
+
 function updateMousePos(evt) {
 	
 	// gets the canvas bounding rectangle and root document
@@ -32,8 +35,8 @@ function updateMousePos(evt) {
 	// mouse X postition is equal to the mousemove evt clientX
 	// - the left bounding rectable (rect.left) - the root documents
 	// scroll left..
-	var mouseX = evt.clientX - rect.left - root.scrollLeft;
-	// var mouseY = evt.clientY - rect.top - root.scrollTop;
+	mouseX = evt.clientX - rect.left - root.scrollLeft;
+	mouseY = evt.clientY - rect.top - root.scrollTop;
 
 	// set paddleX to the mouseX position
 	paddleX = mouseX - Paddle_Width/2;
@@ -106,6 +109,8 @@ function drawAll() {
 	colorRect(paddleX, canvas.height - Paddle_Distance_From_Bottom_Edge,
 				Paddle_Width, Paddle_Thickness, 'white');
 	
+	// draw mouse position so we can see the mouse coordinates
+	colorText(mouseX+","+mouseY, mouseX, mouseY, 'yellow');
 }
 
 // function to draw colored rectangles
@@ -114,12 +119,18 @@ function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
 	canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
 
-// function to call colored circles
+// function to draw colored circles
 function colorCircle(centerX, centerY, radius, fillColor) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.beginPath();
 	canvasContext.arc(centerX,centerY, radius, 0,Math.PI*2, true);
 	canvasContext.fill();
+}
+
+// function to draw colored text
+function colorText(showWords, textX, textY, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillText(showWords, textX, textY);
 }
 </script>
 
