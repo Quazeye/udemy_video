@@ -15,6 +15,10 @@ var ballY = 75;
 var ballSpeedX = 5;
 var ballSpeedY = 7;
 
+const Brick_W = 100;
+const Brick_H = 50;
+const Brick_Count = 4;
+
 // paddle variables
 const Paddle_Width = 100;
 const Paddle_Thickness = 10;
@@ -98,6 +102,13 @@ function moveAll() {
 
 }
 
+function drawBricks() {
+	colorRect(0,0, Brick_W-2, Brick_H, 'blue');
+	colorRect(Brick_W,0, Brick_W-2, Brick_H, 'blue');
+	colorRect(Brick_W*2,0, Brick_W-2, Brick_H, 'blue');
+	colorRect(Brick_W*3,0, Brick_W-2, Brick_H, 'blue');
+}
+
 function drawAll() {
 	// clear the screen
 	colorRect(0,0, canvas.width, canvas.height, 'black');
@@ -108,6 +119,8 @@ function drawAll() {
 	// draw the paddle
 	colorRect(paddleX, canvas.height - Paddle_Distance_From_Bottom_Edge,
 				Paddle_Width, Paddle_Thickness, 'white');
+
+	drawBricks();
 	
 	// draw mouse position so we can see the mouse coordinates
 	colorText(mouseX+","+mouseY, mouseX, mouseY, 'yellow');
