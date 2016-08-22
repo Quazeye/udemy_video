@@ -18,6 +18,7 @@ var ballSpeedY = 7;
 const Brick_W = 100;
 const Brick_H = 50;
 const Brick_Count = 4;
+var brickGrid = [ true, true, true, true ];
 
 // paddle variables
 const Paddle_Width = 100;
@@ -103,10 +104,18 @@ function moveAll() {
 }
 
 function drawBricks() {
-	colorRect(0,0, Brick_W-2, Brick_H, 'blue');
-	colorRect(Brick_W,0, Brick_W-2, Brick_H, 'blue');
-	colorRect(Brick_W*2,0, Brick_W-2, Brick_H, 'blue');
-	colorRect(Brick_W*3,0, Brick_W-2, Brick_H, 'blue');
+	if(brickGrid[0]) {
+		colorRect(Brick_W*0,0, Brick_W-2, Brick_H, 'blue');
+	}
+	if(brickGrid[1]) {
+		colorRect(Brick_W*1,0, Brick_W-2, Brick_H, 'blue');
+	}
+	if(brickGrid[2]) {
+		colorRect(Brick_W*2,0, Brick_W-2, Brick_H, 'blue');
+	}
+	if(brickGrid[3]){
+		colorRect(Brick_W*3,0, Brick_W-2, Brick_H, 'blue');
+	}
 }
 
 function drawAll() {
