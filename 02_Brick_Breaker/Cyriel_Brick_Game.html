@@ -15,9 +15,12 @@ var ballY = 75;
 var ballSpeedX = 5;
 var ballSpeedY = 7;
 
+// brick variables
 const Brick_W = 100;
 const Brick_H = 50;
 const Brick_Count = 4;
+
+// brick array
 var brickGrid = [ true, true, true, true ];
 
 // paddle variables
@@ -104,7 +107,9 @@ function moveAll() {
 }
 
 function drawBricks() {
-	if(brickGrid[0]) {
+	// using a for loop gets rid of all this code.
+
+	/*if(brickGrid[0]) {
 		colorRect(Brick_W*0,0, Brick_W-2, Brick_H, 'blue');
 	}
 	if(brickGrid[1]) {
@@ -115,6 +120,12 @@ function drawBricks() {
 	}
 	if(brickGrid[3]){
 		colorRect(Brick_W*3,0, Brick_W-2, Brick_H, 'blue');
+	}*/
+
+	for(i=0; i<Brick_Count; i++) {
+		if(brickGrid[i]) {
+			colorRect(Brick_W*i,0, Brick_W-2, Brick_H, 'blue');
+		}
 	}
 }
 
