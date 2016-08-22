@@ -18,10 +18,10 @@ var ballSpeedY = 7;
 // brick variables
 const Brick_W = 100;
 const Brick_H = 50;
-const Brick_Count = 4;
+const Brick_Count = 8;
 
-// brick array
-var brickGrid = [ true, true, true, true ];
+// brick array - creates a new array of size Brick_Count
+var brickGrid = new Array(Brick_Count);
 
 // paddle variables
 const Paddle_Width = 100;
@@ -50,6 +50,18 @@ function updateMousePos(evt) {
 	paddleX = mouseX - Paddle_Width/2;
 }
 
+// function to fill array with value true.  
+// for testing purposes we are using a random number to turn on or off bricks.
+function brickReset() {
+	for(var i=0; i<Brick_Count; i++) {
+		if(Math.random() < 0.5) {
+			brickGrid[i] = true;
+		} else {
+			brickGrid[i] = false;
+		} // end of else (rand check)
+	} // end of for each brick
+} // end of brickReset func
+
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
@@ -59,6 +71,9 @@ window.onload = function() {
 
 	// listen for mouse movement and sent it as an event to updateMousePos
 	canvas.addEventListener('mousemove', updateMousePos);
+
+	// call brickReset to fill array when program starts
+	brickReset();
 }
 
 function ballReset() {
@@ -125,9 +140,9 @@ function drawBricks() {
 	for(i=0; i<Brick_Count; i++) {
 		if(brickGrid[i]) {
 			colorRect(Brick_W*i,0, Brick_W-2, Brick_H, 'blue');
-		}
-	}
-}
+		} // end of if brick is visible
+	} // end of for each brick
+} // end of drawBricks func
 
 function drawAll() {
 	// clear the screen
