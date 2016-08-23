@@ -16,14 +16,14 @@ var ballSpeedX = 5;
 var ballSpeedY = 7;
 
 // brick variables
-const Brick_W = 100;
-const Brick_H = 50;
-const Brick_Columns = 8;
+const Brick_W = 80;
+const Brick_H = 20;
 const Brick_Gap = 2;
-const Brick_Rows = 4;
+const Brick_Columns = 10;
+const Brick_Rows = 14;
 
 // brick array - creates a new array of size Brick_Count
-var brickGrid = new Array(Brick_Columns);
+var brickGrid = new Array(Brick_Columns * Brick_Rows);
 
 // paddle variables
 const Paddle_Width = 100;
@@ -55,14 +55,14 @@ function updateMousePos(evt) {
 // function to fill array with value true.  
 // for testing purposes we are using a random number to turn on or off bricks.
 function brickReset() {
-	for(var i=0; i<Brick_Columns; i++) {
-		/*if(Math.random() < 0.5) {
+	for(var i=0; i<Brick_Columns * Brick_Rows; i++) {
+		if(Math.random() < 0.5) {
 			brickGrid[i] = true;
 		} else {
 			brickGrid[i] = false;
-		}*/ // end of else (rand check)
-			brickGrid[i] = true;
+		} // end of else (rand check)
 	} // end of for each brick
+
 } // end of brickReset func
 
 window.onload = function() {
@@ -139,9 +139,14 @@ function drawBricks() {
 	if(brickGrid[3]){
 		colorRect(Brick_W*3,0, Brick_W-2, Brick_H, 'blue');
 	}*/
+
+
 	for(var eachRow=0; eachRow<Brick_Rows; eachRow++) {
 		for(var eachColumn=0; eachColumn<Brick_Columns; eachColumn++) {
-			if(brickGrid[eachColumn]) {
+	
+			var arrayIndex = Brick_Columns * eachRow + eachColumn;
+
+			if(brickGrid[arrayIndex]) {
 				colorRect(Brick_W*eachColumn,Brick_H*eachRow, Brick_W-Brick_Gap, Brick_H-Brick_Gap, 'blue');
 			} // end of if brick is visible
 		} // end of for each brick
@@ -166,8 +171,8 @@ function drawAll() {
 	// colorText(mouseX+","+mouseY, mouseX, mouseY, 'yellow');
 
 	// Changed the above to the following
-	var mouseBrickColumn = mouseX / Brick_W;
-	var mouseBrickRow = mouseY / Brick_H;
+	var mouseBrickColumn = Math.floor(mouseX / Brick_W);
+	var mouseBrickRow = Math.floor(mouseY / Brick_H);
 	colorText(mouseBrickColumn+","+mouseBrickRow, mouseX, mouseY, 'yellow');
 }
 
