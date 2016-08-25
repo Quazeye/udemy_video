@@ -110,8 +110,10 @@ function moveAll() {
 	// check to make sure ball is within play area and if so vanish the brick the ball hits
 	if(ballBrickColumn >= 0 && ballBrickColumn < Brick_Columns && 
 	   ballBrickRow >=0 && ballBrickRow < Brick_Rows) {
-
-		brickGrid[brickIndexUnderBall] = false;
+		if(brickGrid[brickIndexUnderBall]) {
+			brickGrid[brickIndexUnderBall] = false;
+			ballSpeedY *= -1;
+		}
 	}
 
 	var paddleTopEdgeY = canvas.height - Paddle_Distance_From_Bottom_Edge;
