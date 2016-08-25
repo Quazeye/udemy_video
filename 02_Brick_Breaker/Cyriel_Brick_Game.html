@@ -22,7 +22,7 @@ const Brick_Gap = 2;
 const Brick_Columns = 10;
 const Brick_Rows = 14;
 
-// brick array - creates a new array of size Brick_Count
+// brick array - creates a new array of size Brick_Columns * Brick_Rows
 var brickGrid = new Array(Brick_Columns * Brick_Rows);
 
 // paddle variables
@@ -53,14 +53,9 @@ function updateMousePos(evt) {
 }
 
 // function to fill array with value true.  
-// for testing purposes we are using a random number to turn on or off bricks.
 function brickReset() {
 	for(var i=0; i<Brick_Columns * Brick_Rows; i++) {
-		if(Math.random() < 0.5) {
 			brickGrid[i] = true;
-		} else {
-			brickGrid[i] = false;
-		} // end of else (rand check)
 	} // end of for each brick
 
 } // end of brickReset func
@@ -104,6 +99,19 @@ function moveAll() {
 	}
 	if(ballY > canvas.height) { // bottom side
 		ballReset();
+	}
+	// find which column and row the ball is in
+	var ballBrickColumn = Math.floor(ballX / Brick_W);
+	var ballBrickRow = Math.floor(ballY / Brick_H);
+
+	// find the array index under the ball
+	var brickIndexUnderBall = rowColToArrayIndex(ballBrickColumn, ballBrickRow);
+
+	// check to make sure ball is within play area and if so vanish the brick the ball hits
+	if(ballBrickColumn >= 0 && ballBrickColumn < Brick_Columns && 
+	   ballBrickRow >=0 && ballBrickRow < Brick_Rows) {
+
+		brickGrid[brickIndexUnderBall] = false;
 	}
 
 	var paddleTopEdgeY = canvas.height - Paddle_Distance_From_Bottom_Edge;
@@ -171,14 +179,6 @@ function drawAll() {
 
 	drawBricks();
 	
-	//   draw mouse position so we can see the mouse coordinates
-	// colorText(mouseX+","+mouseY, mouseX, mouseY, 'yellow');
-
-	// Changed the above to the following
-	var mouseBrickColumn = Math.floor(mouseX / Brick_W);
-	var mouseBrickRow = Math.floor(mouseY / Brick_H);
-	var brickIndexUnderMouse = rowColToArrayIndex(mouseBrickColumn, mouseBrickRow);
-	colorText(mouseBrickColumn+","+mouseBrickRow+":"+brickIndexUnderMouse, mouseX, mouseY, 'yellow');
 }
 
 // function to draw colored rectangles
