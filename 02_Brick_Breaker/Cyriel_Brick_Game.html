@@ -124,6 +124,10 @@ function moveAll() {
 
 }
 
+function rowColToArrayIndex(col, row) {
+	return col + Brick_Columns * row;
+}
+
 function drawBricks() {
 	// using a for loop gets rid of all this code.
 
@@ -144,7 +148,7 @@ function drawBricks() {
 	for(var eachRow=0; eachRow<Brick_Rows; eachRow++) {
 		for(var eachColumn=0; eachColumn<Brick_Columns; eachColumn++) {
 	
-			var arrayIndex = Brick_Columns * eachRow + eachColumn;
+			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
 
 			if(brickGrid[arrayIndex]) {
 				colorRect(Brick_W*eachColumn,Brick_H*eachRow, Brick_W-Brick_Gap, Brick_H-Brick_Gap, 'blue');
@@ -173,7 +177,8 @@ function drawAll() {
 	// Changed the above to the following
 	var mouseBrickColumn = Math.floor(mouseX / Brick_W);
 	var mouseBrickRow = Math.floor(mouseY / Brick_H);
-	colorText(mouseBrickColumn+","+mouseBrickRow, mouseX, mouseY, 'yellow');
+	var brickIndexUnderMouse = rowColToArrayIndex(mouseBrickColumn, mouseBrickRow);
+	colorText(mouseBrickColumn+","+mouseBrickRow+":"+brickIndexUnderMouse, mouseX, mouseY, 'yellow');
 }
 
 // function to draw colored rectangles
