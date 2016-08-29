@@ -17,13 +17,13 @@ var ballSpeedY = 7;
 
 // brick variables
 const Brick_W = 80;
-const Brick_H = 20;
+const Brick_H = 40;
 const Brick_Gap = 2;
-const Brick_Columns = 10;
-const Brick_Rows = 14;
+const Brick_Cols = 10;
+const Brick_Rows = 7;
 
-// brick array - creates a new array of size Brick_Columns * Brick_Rows
-var brickGrid = new Array(Brick_Columns * Brick_Rows);
+// brick array - creates a new array of size Brick_Cols * Brick_Rows
+var brickGrid = new Array(Brick_Cols * Brick_Rows);
 
 // paddle variables
 const Paddle_Width = 100;
@@ -54,7 +54,7 @@ function updateMousePos(evt) {
 
 // function to fill array with value true.  
 function brickReset() {
-	for(var i=0; i<Brick_Columns * Brick_Rows; i++) {
+	for(var i=0; i<Brick_Cols * Brick_Rows; i++) {
 			brickGrid[i] = true;
 	} // end of for each brick
 
@@ -104,18 +104,32 @@ function ballMove() {
 
 function ballBrickHandling() {
 	// find which column and row the ball is in
-	var ballBrickColumn = Math.floor(ballX / Brick_W);
+	var ballBrickCol = Math.floor(ballX / Brick_W);
 	var ballBrickRow = Math.floor(ballY / Brick_H);
 
 	// find the array index under the ball
-	var brickIndexUnderBall = rowColToArrayIndex(ballBrickColumn, ballBrickRow);
+	var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
 
 	// check to make sure ball is within play area and if so vanish the brick the ball hits
-	if(ballBrickColumn >= 0 && ballBrickColumn < Brick_Columns && 
+	if(ballBrickCol >= 0 && ballBrickCol < Brick_Cols && 
 	   ballBrickRow >=0 && ballBrickRow < Brick_Rows) {
+		
 		if(brickGrid[brickIndexUnderBall]) {
 			brickGrid[brickIndexUnderBall] = false;
-			ballSpeedY *= -1;
+		
+			var prevBallX = ballX - ballSpeedX;
+			var prevBallY = ballY - ballSpeedY;
+			var prevBrickCol = Math.floor(prevBallX / Brick_W);
+			var prevBrickRow = Math.floor(prevBallY / Brick_H);
+
+			if(prevBrickCol != ballBrickCol) {
+				ballSpeedX *= -1;
+			}
+			if(prevBrickRow != ballBrickRow) {
+				ballSpeedY *= -1;
+			}
+
+			
 		} // end of brick found
 	} // end of valid col and row
 } // end of ballBrickHandling func
@@ -147,7 +161,7 @@ function moveAll() {
 }
 
 function rowColToArrayIndex(col, row) {
-	return col + Brick_Columns * row;
+	return col + Brick_Cols * row;
 }
 
 function drawBricks() {
@@ -168,7 +182,7 @@ function drawBricks() {
 
 
 	for(var eachRow=0; eachRow<Brick_Rows; eachRow++) {
-		for(var eachColumn=0; eachColumn<Brick_Columns; eachColumn++) {
+		for(var eachColumn=0; eachColumn<Brick_Cols; eachColumn++) {
 	
 			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
 
