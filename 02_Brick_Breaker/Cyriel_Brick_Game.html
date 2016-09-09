@@ -50,6 +50,12 @@ function updateMousePos(evt) {
 
 	// set paddleX to the mouseX position
 	paddleX = mouseX - Paddle_Width/2;
+
+	// cheat / hack to test ball in any position
+	ballX = mouseX;
+	ballY = mouseY;
+	ballSpeedX = 3;
+	ballSpeedY = -4;
 }
 
 // function to fill array with value true.  
