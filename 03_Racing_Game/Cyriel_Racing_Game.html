@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+// ball variables
+var ballX = 75;
+var ballY = 75;
+var ballSpeedX = 5;
+var ballSpeedY = 7;
+
+// brick variables
+const Brick_W = 80;
+const Brick_H = 20;
+const Brick_Gap = 2;
+const Brick_Cols = 10;
+const Brick_Rows = 14;
+
+// brick array - creates a new array of size Brick_Cols * Brick_Rows
+var brickGrid = new Array(Brick_Cols * Brick_Rows);
+var bricksLeft = 0;
+
+// paddle variables
+const Paddle_Width = 100;
+const Paddle_Thickness = 10;
+const Paddle_Distance_From_Bottom_Edge = 60;   // to make paddle rise up from bottom
+var paddleX = 400;
+
+var canvas, canvasContext;
+
+var mouseX = 0;
+var mouseY = 0;
+
+function updateMousePos(evt) {
+	
+	// gets the canvas bounding rectangle and root document
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+
+	// mouse X postition is equal to the mousemove evt clientX
+	// - the left bounding rectable (rect.left) - the root documents
+	// scroll left..
+	mouseX = evt.clientX - rect.left - root.scrollLeft;
+	mouseY = evt.clientY - rect.top - root.scrollTop;
+
+	// set paddleX to the mouseX position
+	paddleX = mouseX - Paddle_Width/2;
+
+	// cheat / hack to test ball in any position
+	/*ballX = mouseX;
+	ballY = mouseY;
+	ballSpeedX = 4;
+	ballSpeedY = -4;*/
+}
+
+// function to fill array with value true.  
+bricksLeft = 0;
+var i; //declared outside of for loop so it can be used in both for loops
+function brickReset() {
+	for (i=0; i<3 * Brick_Cols; i++) {
+		brickGrid[i] = false;
+	}
+
+	for(; i<Brick_Cols * Brick_Rows; i++) { //skip the decleration of i as it is already set
+			brickGrid[i] = true;
+			bricksLeft++;
+	} // end of for each brick
+
+} // end of brickReset func
+
+window.onload = function() {
+	canvas = document.getElementById('gameCanvas');
+	canvasContext = canvas.getContext('2d');
+
+	var framesPerSecond = 30;
+	setInterval(updateAll, 1000/framesPerSecond);
+
+	// listen for mouse movement and sent it as an event to updateMousePos
+	canvas.addEventListener('mousemove', updateMousePos);
+
+	// call brickReset to fill array when program starts
+	brickReset();
+	ballReset();
+}
+
+function ballReset() {
+	ballX = canvas.width / 2;
+	ballY = canvas.height / 2;
+}
+
+function updateAll() {
+	moveAll();
+	drawAll();
+}
+
+function ballMove() {
+	ballX += ballSpeedX;
+	ballY += ballSpeedY;
+
+	if(ballX < 0 && ballSpeedX < 0.0) { // left side
+		ballSpeedX *= -1;
+	}
+	if(ballX > canvas.width && ballSpeedX > 0.0) { // right side
+		ballSpeedX *= -1;
+	}
+	if(ballY < 0 && ballSpeedY < 0.0) { // top side
+		ballSpeedY *= -1;
+	}
+	if(ballY > canvas.height) { // bottom side
+		ballReset();
+		brickReset();
+	}
+}
+
+function isBrickAtColRow(col,row) {
+	if(col >= 0 && col < Brick_Cols && 
+	   row >=0 && row < Brick_Rows) {
+		var brickIndexUnderCoord = rowColToArrayIndex(col, row);
+		return brickGrid[brickIndexUnderCoord];
+	} else {
+		return false;
+	}
+}
+
+function ballBrickHandling() {
+	// find which column and row the ball is in
+	var ballBrickCol = Math.floor(ballX / Brick_W);
+	var ballBrickRow = Math.floor(ballY / Brick_H);
+
+	// find the array index under the ball
+	var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
+
+	// check to make sure ball is within play area and if so vanish the brick the ball hits
+	if(ballBrickCol >= 0 && ballBrickCol < Brick_Cols && 
+	   ballBrickRow >=0 && ballBrickRow < Brick_Rows) {
+		
+		if(isBrickAtColRow(ballBrickCol, ballBrickRow)) {
+			brickGrid[brickIndexUnderBall] = false;
+			bricksLeft--;
+			// console.log(bricksLeft);
+		
+			var prevBallX = ballX - ballSpeedX;
+			var prevBallY = ballY - ballSpeedY;
+			var prevBrickCol = Math.floor(prevBallX / Brick_W);
+			var prevBrickRow = Math.floor(prevBallY / Brick_H);
+
+			var bothTestsFailed = true;
+
+			if(prevBrickCol != ballBrickCol) {
+				if (isBrickAtColRow(prevBrickCol, ballBrickRow) == false) {
+					ballSpeedX *= -1;
+					bothTestsFailed = false;
+				}
+			}
+			if(prevBrickRow != ballBrickRow) {
+				if (isBrickAtColRow(ballBrickCol, prevBrickRow) == false) {
+					ballSpeedY *= -1;
+					bothTestsFailed = false;
+				}
+			}
+
+			if (bothTestsFailed) { //armpit case, prevents ball from going right through
+				ballSpeedX *= -1;
+				ballSpeedY *= -1;
+			}
+		} // end of brick found
+	} // end of valid col and row
+} // end of ballBrickHandling func
+
+function ballPaddleHandling() {
+	var paddleTopEdgeY = canvas.height - Paddle_Distance_From_Bottom_Edge;
+	var paddleBottomEdgeY = paddleTopEdgeY + Paddle_Thickness;
+	var paddleLeftEdgeX = paddleX;
+	var paddleRightEdgeX = paddleLeftEdgeX + Paddle_Width;
+	if (ballY > paddleTopEdgeY && // below the top of the paddle
+		ballY < paddleBottomEdgeY && // above the bottom of the paddle
+		ballX > paddleLeftEdgeX && // right of the left side of the paddle
+		ballX < paddleRightEdgeX) { // left of the right side of the paddle
+		
+		ballSpeedY *= -1;
+	
+		var centerOfPaddleX = paddleX + Paddle_Width / 2;
+		var ballDistanceFromPaddleCenterX = ballX - centerOfPaddleX;
+		ballSpeedX = ballDistanceFromPaddleCenterX * 0.35;
+
+		if(bricksLeft == 0) {
+			brickReset();
+		} // out of bricks
+	} // ball center inside paddle
+} // end of ball paddle handling
+
+function moveAll() {
+	ballMove();
+	
+	ballBrickHandling();
+
+	ballPaddleHandling();	
+}
+
+function rowColToArrayIndex(col, row) {
+	return col + Brick_Cols * row;
+}
+
+function drawBricks() {
+	// using a for loop gets rid of all this code.
+
+	/*if(brickGrid[0]) {
+		colorRect(Brick_W*0,0, Brick_W-2, Brick_H, 'blue');
+	}
+	if(brickGrid[1]) {
+		colorRect(Brick_W*1,0, Brick_W-2, Brick_H, 'blue');
+	}
+	if(brickGrid[2]) {
+		colorRect(Brick_W*2,0, Brick_W-2, Brick_H, 'blue');
+	}
+	if(brickGrid[3]){
+		colorRect(Brick_W*3,0, Brick_W-2, Brick_H, 'blue');
+	}*/
+
+
+	for(var eachRow=0; eachRow<Brick_Rows; eachRow++) {
+		for(var eachColumn=0; eachColumn<Brick_Cols; eachColumn++) {
+	
+			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
+
+			if(brickGrid[arrayIndex]) {
+				colorRect(Brick_W*eachColumn,Brick_H*eachRow, Brick_W-Brick_Gap, Brick_H-Brick_Gap, 'blue');
+			} // end of if brick is visible
+		} // end of for each brick
+	}
+
+} // end of drawBricks func
+
+function drawAll() {
+	// clear the screen
+	colorRect(0,0, canvas.width, canvas.height, 'black');
+	
+	// draw the ball
+	colorCircle(ballX, ballY, 10, 'white');
+
+	// draw the paddle
+	colorRect(paddleX, canvas.height - Paddle_Distance_From_Bottom_Edge,
+				Paddle_Width, Paddle_Thickness, 'white');
+
+	drawBricks();
+	
+}
+
+// function to draw colored rectangles
+function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+}
+
+// function to draw colored circles
+function colorCircle(centerX, centerY, radius, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.beginPath();
+	canvasContext.arc(centerX,centerY, radius, 0,Math.PI*2, true);
+	canvasContext.fill();
+}
+
+// function to draw colored text
+function colorText(showWords, textX, textY, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillText(showWords, textX, textY);
+}
+</script>
+
+</body>
+</html>
