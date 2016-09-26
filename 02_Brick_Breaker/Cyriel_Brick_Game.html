@@ -53,10 +53,10 @@ function updateMousePos(evt) {
 	paddleX = mouseX - Paddle_Width/2;
 
 	// cheat / hack to test ball in any position
-	ballX = mouseX;
+	/*ballX = mouseX;
 	ballY = mouseY;
 	ballSpeedX = 4;
-	ballSpeedY = -4;
+	ballSpeedY = -4;*/
 }
 
 // function to fill array with value true.  
@@ -114,6 +114,7 @@ function ballMove() {
 	}
 	if(ballY > canvas.height) { // bottom side
 		ballReset();
+		brickReset();
 	}
 }
 
