@@ -24,6 +24,7 @@ const Brick_Rows = 7;
 
 // brick array - creates a new array of size Brick_Cols * Brick_Rows
 var brickGrid = new Array(Brick_Cols * Brick_Rows);
+var bricksLeft = 0;
 
 // paddle variables
 const Paddle_Width = 100;
@@ -59,9 +60,11 @@ function updateMousePos(evt) {
 }
 
 // function to fill array with value true.  
+bricksLeft = 0;
 function brickReset() {
 	for(var i=0; i<Brick_Cols * Brick_Rows; i++) {
 			brickGrid[i] = true;
+			bricksLeft++;
 	} // end of for each brick
 
 } // end of brickReset func
@@ -122,6 +125,8 @@ function ballBrickHandling() {
 		
 		if(brickGrid[brickIndexUnderBall]) {
 			brickGrid[brickIndexUnderBall] = false;
+			bricksLeft--;
+			console.log(bricksLeft);
 		
 			var prevBallX = ballX - ballSpeedX;
 			var prevBallY = ballY - ballSpeedY;
