@@ -60,9 +60,9 @@ function updateMousePos(evt) {
 }
 
 // function to fill array with value true.  
-bricksLeft = 0;
 var i; //declared outside of for loop so it can be used in both for loops
 function brickReset() {
+	bricksLeft = 0;
 	for (i=0; i<3 * Brick_Cols; i++) {
 		brickGrid[i] = false;
 	}
