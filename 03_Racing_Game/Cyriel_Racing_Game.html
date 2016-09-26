@@ -26,12 +26,6 @@ const Brick_Rows = 14;
 var brickGrid = new Array(Brick_Cols * Brick_Rows);
 var bricksLeft = 0;
 
-// paddle variables
-const Paddle_Width = 100;
-const Paddle_Thickness = 10;
-const Paddle_Distance_From_Bottom_Edge = 60;   // to make paddle rise up from bottom
-var paddleX = 400;
-
 var canvas, canvasContext;
 
 var mouseX = 0;
@@ -48,9 +42,6 @@ function updateMousePos(evt) {
 	// scroll left..
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
-
-	// set paddleX to the mouseX position
-	paddleX = mouseX - Paddle_Width/2;
 
 	// cheat / hack to test ball in any position
 	/*ballX = mouseX;
@@ -173,34 +164,11 @@ function ballBrickHandling() {
 	} // end of valid col and row
 } // end of ballBrickHandling func
 
-function ballPaddleHandling() {
-	var paddleTopEdgeY = canvas.height - Paddle_Distance_From_Bottom_Edge;
-	var paddleBottomEdgeY = paddleTopEdgeY + Paddle_Thickness;
-	var paddleLeftEdgeX = paddleX;
-	var paddleRightEdgeX = paddleLeftEdgeX + Paddle_Width;
-	if (ballY > paddleTopEdgeY && // below the top of the paddle
-		ballY < paddleBottomEdgeY && // above the bottom of the paddle
-		ballX > paddleLeftEdgeX && // right of the left side of the paddle
-		ballX < paddleRightEdgeX) { // left of the right side of the paddle
-		
-		ballSpeedY *= -1;
-	
-		var centerOfPaddleX = paddleX + Paddle_Width / 2;
-		var ballDistanceFromPaddleCenterX = ballX - centerOfPaddleX;
-		ballSpeedX = ballDistanceFromPaddleCenterX * 0.35;
-
-		if(bricksLeft == 0) {
-			brickReset();
-		} // out of bricks
-	} // ball center inside paddle
-} // end of ball paddle handling
-
 function moveAll() {
 	ballMove();
 	
 	ballBrickHandling();
 
-	ballPaddleHandling();	
 }
 
 function rowColToArrayIndex(col, row) {
@@ -243,10 +211,6 @@ function drawAll() {
 	
 	// draw the ball
 	colorCircle(ballX, ballY, 10, 'white');
-
-	// draw the paddle
-	colorRect(paddleX, canvas.height - Paddle_Distance_From_Bottom_Edge,
-				Paddle_Width, Paddle_Thickness, 'white');
 
 	drawBricks();
 	
