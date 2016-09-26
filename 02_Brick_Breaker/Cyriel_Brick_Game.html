@@ -17,10 +17,10 @@ var ballSpeedY = 7;
 
 // brick variables
 const Brick_W = 80;
-const Brick_H = 40;
+const Brick_H = 20;
 const Brick_Gap = 2;
 const Brick_Cols = 10;
-const Brick_Rows = 7;
+const Brick_Rows = 14;
 
 // brick array - creates a new array of size Brick_Cols * Brick_Rows
 var brickGrid = new Array(Brick_Cols * Brick_Rows);
@@ -61,8 +61,13 @@ function updateMousePos(evt) {
 
 // function to fill array with value true.  
 bricksLeft = 0;
+var i; //declared outside of for loop so it can be used in both for loops
 function brickReset() {
-	for(var i=0; i<Brick_Cols * Brick_Rows; i++) {
+	for (i=0; i<3 * Brick_Cols; i++) {
+		brickGrid[i] = false;
+	}
+
+	for(; i<Brick_Cols * Brick_Rows; i++) { //skip the decleration of i as it is already set
 			brickGrid[i] = true;
 			bricksLeft++;
 	} // end of for each brick
