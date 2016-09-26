@@ -86,6 +86,7 @@ window.onload = function() {
 
 	// call brickReset to fill array when program starts
 	brickReset();
+	ballReset();
 }
 
 function ballReset() {
@@ -180,8 +181,12 @@ function ballPaddleHandling() {
 		var centerOfPaddleX = paddleX + Paddle_Width / 2;
 		var ballDistanceFromPaddleCenterX = ballX - centerOfPaddleX;
 		ballSpeedX = ballDistanceFromPaddleCenterX * 0.35;
-	}
-}
+
+		if(bricksLeft == 0) {
+			brickReset();
+		} // out of bricks
+	} // ball center inside paddle
+} // end of ball paddle handling
 
 function moveAll() {
 	ballMove();
