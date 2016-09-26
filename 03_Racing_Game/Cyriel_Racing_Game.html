@@ -22,9 +22,23 @@ const Track_Gap = 2;
 const Track_Cols = 20;
 const Track_Rows = 15;
 
-// track array - creates a new array of size Track_Cols * Track_Rows
-var trackGrid = new Array(Track_Cols * Track_Rows);
-var tracksLeft = 0;
+// track array - creates a new array with track laid out by hand.
+var trackGrid = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
 
 var canvas, canvasContext;
 
@@ -52,16 +66,6 @@ function updateMousePos(evt) {
 
 // function to fill array with value true.  
 
-function trackReset() {
-	tracksLeft = 0;
-
-	for(var i=0; i<Track_Cols * Track_Rows; i++) { //skip the decleration of i as it is already set
-			trackGrid[i] = true;
-			tracksLeft++;
-	} // end of for each track
-
-} // end of trackReset func
-
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
@@ -72,8 +76,6 @@ window.onload = function() {
 	// listen for mouse movement and sent it as an event to updateMousePos
 	canvas.addEventListener('mousemove', updateMousePos);
 
-	// call trackReset to fill array when program starts
-	trackReset();
 	ballReset();
 }
 
@@ -110,7 +112,7 @@ function isTrackAtColRow(col,row) {
 	if(col >= 0 && col < Track_Cols && 
 	   row >=0 && row < Track_Rows) {
 		var trackIndexUnderCoord = rowColToArrayIndex(col, row);
-		return trackGrid[trackIndexUnderCoord];
+		return(trackGrid[trackIndexUnderCoord] == 1);
 	} else {
 		return false;
 	}
@@ -129,10 +131,6 @@ function ballTrackHandling() {
 	   ballTrackRow >=0 && ballTrackRow < Track_Rows) {
 		
 		if(isTrackAtColRow(ballTrackCol, ballTrackRow)) {
-			trackGrid[trackIndexUnderBall] = false;
-			tracksLeft--;
-			// console.log(tracksLeft);
-		
 			var prevBallX = ballX - ballSpeedX;
 			var prevBallY = ballY - ballSpeedY;
 			var prevTrackCol = Math.floor(prevBallX / Track_W);
@@ -173,28 +171,13 @@ function rowColToArrayIndex(col, row) {
 }
 
 function drawTracks() {
-	// using a for loop gets rid of all this code.
-
-	/*if(trackGrid[0]) {
-		colorRect(Track_W*0,0, Track_W-2, Track_H, 'blue');
-	}
-	if(trackGrid[1]) {
-		colorRect(Track_W*1,0, Track_W-2, Track_H, 'blue');
-	}
-	if(trackGrid[2]) {
-		colorRect(Track_W*2,0, Track_W-2, Track_H, 'blue');
-	}
-	if(trackGrid[3]){
-		colorRect(Track_W*3,0, Track_W-2, Track_H, 'blue');
-	}*/
-
 
 	for(var eachRow=0; eachRow<Track_Rows; eachRow++) {
 		for(var eachColumn=0; eachColumn<Track_Cols; eachColumn++) {
 	
 			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
 
-			if(trackGrid[arrayIndex]) {
+			if(trackGrid[arrayIndex] == 1) {
 				colorRect(Track_W*eachColumn,Track_H*eachRow, Track_W-Track_Gap, Track_H-Track_Gap, 'blue');
 			} // end of if track is visible
 		} // end of for each track
