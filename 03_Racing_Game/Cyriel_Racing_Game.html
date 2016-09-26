@@ -16,11 +16,11 @@ var ballSpeedX = 5;
 var ballSpeedY = 7;
 
 // track variables
-const Track_W = 80;
-const Track_H = 20;
+const Track_W = 40;
+const Track_H = 40;
 const Track_Gap = 2;
-const Track_Cols = 10;
-const Track_Rows = 14;
+const Track_Cols = 20;
+const Track_Rows = 15;
 
 // track array - creates a new array of size Track_Cols * Track_Rows
 var trackGrid = new Array(Track_Cols * Track_Rows);
@@ -51,14 +51,11 @@ function updateMousePos(evt) {
 }
 
 // function to fill array with value true.  
-tracksLeft = 0;
-var i; //declared outside of for loop so it can be used in both for loops
-function trackReset() {
-	for (i=0; i<3 * Track_Cols; i++) {
-		trackGrid[i] = false;
-	}
 
-	for(; i<Track_Cols * Track_Rows; i++) { //skip the decleration of i as it is already set
+function trackReset() {
+	tracksLeft = 0;
+
+	for(var i=0; i<Track_Cols * Track_Rows; i++) { //skip the decleration of i as it is already set
 			trackGrid[i] = true;
 			tracksLeft++;
 	} // end of for each track
