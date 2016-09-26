@@ -118,6 +118,16 @@ function ballMove() {
 	}
 }
 
+function isBrickAtColRow(col,row) {
+	if(col >= 0 && col < Brick_Cols && 
+	   row >=0 && row < Brick_Rows) {
+		var brickIndexUnderCoord = rowColToArrayIndex(col, row);
+		return brickGrid[brickIndexUnderCoord];
+	} else {
+		return false;
+	}
+}
+
 function ballBrickHandling() {
 	// find which column and row the ball is in
 	var ballBrickCol = Math.floor(ballX / Brick_W);
@@ -130,7 +140,7 @@ function ballBrickHandling() {
 	if(ballBrickCol >= 0 && ballBrickCol < Brick_Cols && 
 	   ballBrickRow >=0 && ballBrickRow < Brick_Rows) {
 		
-		if(brickGrid[brickIndexUnderBall]) {
+		if(isBrickAtColRow(ballBrickCol, ballBrickRow)) {
 			brickGrid[brickIndexUnderBall] = false;
 			bricksLeft--;
 			console.log(bricksLeft);
@@ -143,17 +153,13 @@ function ballBrickHandling() {
 			var bothTestsFailed = true;
 
 			if(prevBrickCol != ballBrickCol) {
-				var adjBrickSide = rowColToArrayIndex(prevBrickCol, ballBrickRow);
-
-				if (brickGrid[adjBrickSide] == false) {
+				if (isBrickAtColRow(prevBrickCol, ballBrickRow) == false) {
 					ballSpeedX *= -1;
 					bothTestsFailed = false;
 				}
 			}
 			if(prevBrickRow != ballBrickRow) {
-				var adjBrickTopBot = rowColToArrayIndex(ballBrickCol, prevBrickRow);
-
-				if (brickGrid[adjBrickTopBot] == false) {
+				if (isBrickAtColRow(ballBrickCol, prevBrickRow) == false) {
 					ballSpeedY *= -1;
 					bothTestsFailed = false;
 				}
