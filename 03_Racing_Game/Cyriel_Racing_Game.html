@@ -79,6 +79,11 @@ window.onload = function() {
 	// listen for mouse movement and sent it as an event to updateMousePos
 	canvas.addEventListener('mousemove', updateMousePos);
 
+	carPic.onload = function() {
+		carPicLoaded = true;
+	}
+	carPic.src = "player1car.png";
+
 	ballReset();
 }
 
@@ -171,7 +176,7 @@ function ballTrackHandling() {
 } // end of ballTrackHandling func
 
 function moveAll() {
-	// ballMove();
+	ballMove();
 	
 	ballTrackHandling();
 
@@ -201,7 +206,11 @@ function drawAll() {
 	colorRect(0,0, canvas.width, canvas.height, 'black');
 	
 	// draw the ball
-	colorCircle(ballX, ballY, 10, 'white');
+	// colorCircle(ballX, ballY, 10, 'white');
+	if(carPicLoaded) {
+		canvasContext.drawImage(carPic,
+			ballX - carPic.width/2, ballY - carPic.height/2);
+	}
 
 	drawTracks();
 	
