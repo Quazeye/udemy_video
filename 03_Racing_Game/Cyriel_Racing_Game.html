@@ -139,6 +139,7 @@ function carReset() {
 			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
 			if(trackGrid[arrayIndex] == 2) {
 				trackGrid[arrayIndex] = 0;
+				carAng = -Math.PI/2;  // starts with car facing north
 				carX = eachColumn * Track_W + Track_W / 2;
 				carY = eachRow * Track_H + Track_H / 2;
 			}
