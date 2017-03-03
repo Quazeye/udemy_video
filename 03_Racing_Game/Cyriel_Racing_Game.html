@@ -67,6 +67,15 @@ function updateMousePos(evt) {
 	carSpeedY = -4;*/
 }
 
+function keyPressed(evt) {
+	console.log("Key pressed: "+evt.keyCode);
+}
+
+function keyReleased(evt) {
+	console.log("Key Released: "+evt.keyCode);
+}
+
+
 // function to fill array with value true.  
 
 window.onload = function() {
@@ -78,6 +87,10 @@ window.onload = function() {
 
 	// listen for mouse movement and sent it as an event to updateMousePos
 	canvas.addEventListener('mousemove', updateMousePos);
+
+	//listen for keyboard input
+	document.addEventListener('keydown', keyPressed);
+	document.addEventListener('keyup', keyReleased);
 
 	carPic.onload = function() {
 		carPicLoaded = true;
