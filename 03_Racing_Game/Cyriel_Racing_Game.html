@@ -187,14 +187,18 @@ function carTrackHandling() {
 	// find the array index under the car
 	var trackIndexUnderCar = rowColToArrayIndex(carTrackCol, carTrackRow);
 
-	// check to make sure car is within play area and if so vanish the track the car hits
+	// check to make sure car is within play area
 	if(carTrackCol >= 0 && carTrackCol < Track_Cols && 
 	   carTrackRow >=0 && carTrackRow < Track_Rows) {
 		
+		// if car hits wall reduce its speed and reverse it
 		if(isTrackAtColRow(carTrackCol, carTrackRow)) {
-			carSpeed *= -1;
+			// next two lines added to fix car burrows into wall bug in video 9.6.
+			// undoes car movement which got it onto the wall.
+			carX -= Math.cos(carAng) * carSpeed;
+			carY -= Math.sin(carAng) * carSpeed;
 
-			
+			carSpeed *= -0.5;
 		} // end of track found
 	} // end of valid col and row
 } // end of carTrackHandling func
