@@ -152,11 +152,13 @@ function updateAll() {
 }
 
 function carMove() {
+	carSpeed *= 0.97;
+
 	if(keyHeld_Gas) {
-		carSpeed += 0.2;
+		carSpeed += 0.3;
 	}
 	if(keyHeld_Reverse) {
-		carSpeed -= 0.2;
+		carSpeed -= 0.3;
 	}
 	if(keyHeld_TurnLeft) {
 		carAng -= 0.04;
