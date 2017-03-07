@@ -14,14 +14,14 @@ function countLoadedImagesAndLaunchIfReady() {
 
 function beginLoadingImage(imgVar, fileName) {
 	imgVar.onload = countLoadedImagesAndLaunchIfReady;
-	imgVar.src = fileName;
+	imgVar.src = "images/"+fileName;
 }
 
 function loadImages() {
 	var imageList = [
-		{varName: carPic, theFile: "player1car.png"},
-		{varName: roadPic, theFile: "track_road.png"},
-		{varName: wallPic, theFile: "track_wall.png"}
+		{varName: carPic, theFile: "player1car.png" },
+		{varName: roadPic, theFile: "track_road.png" },
+		{varName: wallPic, theFile: "track_wall.png" }
 		];
 
 		picsToLoad = imageList.length;
