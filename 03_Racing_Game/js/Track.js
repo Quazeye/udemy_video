@@ -74,12 +74,27 @@ function drawTracks() {
 		for(var eachColumn=0; eachColumn<Track_Cols; eachColumn++) {
 	
 			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
+			var tileKindHere = trackGrid[arrayIndex];
+			var useImg;
+			switch(tileKindHere) {
+				case TRACK_ROAD:
+					useImg = roadPic;
+					break;
+				case TRACK_WALL:
+					useImg = wallPic;
+					break;
+				case TRACK_GOAL:
+					useImg = goalPic;
+					break;
+				case TRACK_TREE:
+					useImg = treePic;
+					break;
+				case TRACK_FLAG:
+					useImg = flagPic;
+					break;
+			}	
 
-			if(trackGrid[arrayIndex] == TRACK_ROAD) {
-				canvasContext.drawImage(roadPic,Track_W*eachColumn,Track_H*eachRow);
-			} else if(trackGrid[arrayIndex] == TRACK_WALL) {
-				canvasContext.drawImage(wallPic,Track_W*eachColumn,Track_H*eachRow);
-			}
+			canvasContext.drawImage(useImg,Track_W*eachColumn,Track_H*eachRow);
 
 		} // end of for each col
 	} //end of for each row
