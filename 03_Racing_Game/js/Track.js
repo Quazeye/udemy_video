@@ -8,7 +8,7 @@ const Track_Rows = 15;
 // track array - creates a new array with track laid out by hand.
 var trackGrid = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+				 1, 1, 0, 0, 3, 0, 4, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 				 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
 				 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
 				 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1,
@@ -30,11 +30,11 @@ const TRACK_FLAG = 5;
 
 
 
-function isWallAtColRow(col,row) {
+function isObstacleAtColRow(col,row) {
 	if(col >= 0 && col < Track_Cols && 
 	   row >=0 && row < Track_Rows) {
 		var trackIndexUnderCoord = rowColToArrayIndex(col, row);
-		return(trackGrid[trackIndexUnderCoord] == TRACK_WALL);
+		return(trackGrid[trackIndexUnderCoord] != TRACK_ROAD);
 	} else {
 		return false;
 	}
@@ -53,7 +53,7 @@ function carTrackHandling() {
 	   carTrackRow >=0 && carTrackRow < Track_Rows) {
 		
 		// if car hits wall reduce its speed and reverse it
-		if(isWallAtColRow(carTrackCol, carTrackRow)) {
+		if(isObstacleAtColRow(carTrackCol, carTrackRow)) {
 			// next two lines added to fix car burrows into wall bug in video 9.6.
 			// undoes car movement which got it onto the wall.
 			carX -= Math.cos(carAng) * carSpeed;
