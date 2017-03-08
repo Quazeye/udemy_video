@@ -70,15 +70,19 @@ function rowColToArrayIndex(col, row) {
 
 function drawTracks() {
 
+	var arrayIndex = 0;
+	var drawTileX = 0;
+	var drawTileY = 0;
 	for(var eachRow=0; eachRow<Track_Rows; eachRow++) {
 		for(var eachColumn=0; eachColumn<Track_Cols; eachColumn++) {
-	
-			var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
 			var tileKindHere = trackGrid[arrayIndex];			
 			var useImg = trackPics[tileKindHere];
+			canvasContext.drawImage(useImg,drawTileX,drawTileY);
 
-			canvasContext.drawImage(useImg,Track_W*eachColumn,Track_H*eachRow);
-
+			drawTileX += Track_W;
+			arrayIndex++;
 		} // end of for each col
+		drawTileX = 0;
+		drawTileY += Track_H;
 	} //end of for each row
 } // end of drawTracks func
