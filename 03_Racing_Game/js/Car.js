@@ -18,36 +18,36 @@ function carClass() {
 				var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
 				if(trackGrid[arrayIndex] == TRACK_PLAYERSTART) {
 					trackGrid[arrayIndex] = TRACK_ROAD;
-					carAng = -Math.PI/2;  // starts with car facing north
-					carX = eachColumn * Track_W + Track_W / 2;
-					carY = eachRow * Track_H + Track_H / 2;
+					this.ang = -Math.PI/2;  // starts with car facing north
+					this.x = eachColumn * Track_W + Track_W / 2;
+					this.y = eachRow * Track_H + Track_H / 2;
 				} // end of player start if
 			} // end of col for
 		} // end of row for
 	} // end of carReset func
 
 	this.move = function() {
-		carSpeed *= GROUNDSPEED_DECAY_MULT;
+		this.speed *= GROUNDSPEED_DECAY_MULT;
 
 		if(keyHeld_Gas) {
-			carSpeed += DRIVE_POWER;
+			this.speed += DRIVE_POWER;
 		}
 		if(keyHeld_Reverse) {
-			carSpeed -= REVERSE_POWER;
+			this.speed -= REVERSE_POWER;
 		}
-		if(Math.abs(carSpeed) > MIN_SPEED_TO_TURN) {
+		if(Math.abs(this.speed) > MIN_SPEED_TO_TURN) {
 			if(keyHeld_TurnLeft) {
-				carAng -= TURN_RATE;
+				this.ang -= TURN_RATE;
 			}
 			if(keyHeld_TurnRight) {
-				carAng += TURN_RATE;
+				this.ang += TURN_RATE;
 			}
 		}
-		carX += Math.cos(carAng) * carSpeed;
-		carY += Math.sin(carAng) * carSpeed;
+		this.x += Math.cos(this.ang) * this.speed;
+		this.y += Math.sin(this.ang) * this.speed;
 	}
 
 	this.draw = function() {
-		drawBitmapCenteredWithRotation(carPic, carX, carY, carAng);	
+		drawBitmapCenteredWithRotation(carPic, this.x, this.y, this.ang);	
 	}
 }
