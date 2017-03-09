@@ -40,10 +40,10 @@ function isObstacleAtColRow(col,row) {
 	}
 }
 
-function carTrackHandling() {
+function carTrackHandling(whichCar) {
 	// find which column and row the car is in
-	var carTrackCol = Math.floor(carX / Track_W);
-	var carTrackRow = Math.floor(carY / Track_H);
+	var carTrackCol = Math.floor(whichCar.x / Track_W);
+	var carTrackRow = Math.floor(whichCar.y / Track_H);
 
 	// find the array index under the car
 	var trackIndexUnderCar = rowColToArrayIndex(carTrackCol, carTrackRow);
@@ -56,8 +56,8 @@ function carTrackHandling() {
 		if(isObstacleAtColRow(carTrackCol, carTrackRow)) {
 			// next two lines added to fix car burrows into wall bug in video 9.6.
 			// undoes car movement which got it onto the wall.
-			carX -= Math.cos(carAng) * carSpeed;
-			carY -= Math.sin(carAng) * carSpeed;
+			whichCar.x -= Math.cos(whichCar.ang) * whichCar.speed;
+			whichCar.y -= Math.sin(whichCar.ang) * whichCar.speed;
 
 			carSpeed *= -0.5;
 		} // end of track found
