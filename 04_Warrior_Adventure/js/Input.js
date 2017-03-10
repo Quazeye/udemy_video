@@ -21,7 +21,7 @@ function setupInput() {
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 
-	greenCar.setupInput(KEY_W, KEY_D, KEY_S, KEY_A);
+	// greenCar.setupInput(KEY_W, KEY_D, KEY_S, KEY_A);
 	blueCar.setupInput(KEY_UP_ARROW, KEY_RIGHT_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW);
 
 }
@@ -57,7 +57,7 @@ function keySet(keyEvent, whichCar, setTo) {
 
 function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
-	keySet(evt,greenCar,true);
+	// keySet(evt,greenCar,true);
 	keySet(evt,blueCar,true);
 
 	// evt.preventDefault();
@@ -65,7 +65,7 @@ function keyPressed(evt) {
 
 function keyReleased(evt) {
 	// console.log("Key Released: "+evt.keyCode);
-	keySet(evt,greenCar,false);
+	// keySet(evt,greenCar,false);
 	keySet(evt,blueCar,false);
 	
 	// evt.preventDefault();
