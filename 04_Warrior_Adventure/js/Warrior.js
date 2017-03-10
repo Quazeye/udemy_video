@@ -5,14 +5,14 @@ const TURN_RATE = 0.06;
 const MIN_SPEED_TO_TURN = 0.5;
 
 
-function carClass() {
+function warriorClass() {
 
 	this.x = 75;
 	this.y = 75;
 	this.ang = 0;
 	this.speed = 0;
-	this.myCarPic; // which picture to use
-	this.name = "Untitled Car";
+	this.myWarriorPic; // which picture to use
+	this.name = "Untitled Warrior";
 
 	this.keyHeld_Gas = false;
 	this.keyHeld_Reverse = false;
@@ -31,25 +31,25 @@ function carClass() {
 		this.controlKeyLeft =leftKey; 
 	}
 
-	this.reset = function(whichImage, carName) {
-		this.name = carName;
-		this.myCarPic = whichImage;
+	this.reset = function(whichImage, warriorName) {
+		this.name = warriorName;
+		this.myWarriorPic = whichImage;
 		this.speed = 0;
 
-		for(var eachRow=0; eachRow<Track_Rows; eachRow++) {
-			for(var eachColumn=0; eachColumn<Track_Cols; eachColumn++) {
+		for(var eachRow=0; eachRow<World_Rows; eachRow++) {
+			for(var eachColumn=0; eachColumn<World_Cols; eachColumn++) {
 				var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
-				if(trackGrid[arrayIndex] == TRACK_PLAYERSTART) {
-					trackGrid[arrayIndex] = TRACK_ROAD;
-					this.ang = -Math.PI/2;  // starts with car facing north
-					this.x = eachColumn * Track_W + Track_W / 2;
-					this.y = eachRow * Track_H + Track_H / 2;
+				if(worldGrid[arrayIndex] == WORLD_PLAYERSTART) {
+					worldGrid[arrayIndex] = WORLD_ROAD;
+					this.ang = -Math.PI/2;  // starts with warrior facing north
+					this.x = eachColumn * World_W + World_W / 2;
+					this.y = eachRow * World_H + World_H / 2;
 					return;
 				} // end of player start if
 			} // end of col for
 		} // end of row for
 		console.log("NO PLAYER START FOUND!");
-	} // end of carReset func
+	} // end of warriorReset func
 
 	this.move = function() {
 		this.speed *= GROUNDSPEED_DECAY_MULT;
@@ -71,10 +71,10 @@ function carClass() {
 		this.x += Math.cos(this.ang) * this.speed;
 		this.y += Math.sin(this.ang) * this.speed;
 
-			carTrackHandling(this);
+			warriorWorldHandling(this);
 	}
 
 	this.draw = function() {
-		drawBitmapCenteredWithRotation(this.myCarPic, this.x, this.y, this.ang);	
+		drawBitmapCenteredWithRotation(this.myWarriorPic, this.x, this.y, this.ang);	
 	}
 }
