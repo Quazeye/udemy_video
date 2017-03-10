@@ -55,7 +55,7 @@ function carTrackHandling(whichCar) {
 		// if car hits wall reduce its speed and reverse it
 		
 		if(tileHere == TRACK_GOAL){
-			whichCar.speed *= -0.5;
+			console.log(whichCar.name + " WINS!!!");
 		}
 			else if(tileHere != TRACK_ROAD) {
 			// next two lines added to fix car burrows into wall bug in video 9.6.
