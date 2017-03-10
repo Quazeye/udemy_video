@@ -34,6 +34,7 @@ function carClass() {
 	this.reset = function(whichImage, carName) {
 		this.name = carName;
 		this.myCarPic = whichImage;
+		this.speed = 0;
 
 		for(var eachRow=0; eachRow<Track_Rows; eachRow++) {
 			for(var eachColumn=0; eachColumn<Track_Cols; eachColumn++) {
