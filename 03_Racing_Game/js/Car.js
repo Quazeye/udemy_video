@@ -47,6 +47,7 @@ function carClass() {
 				} // end of player start if
 			} // end of col for
 		} // end of row for
+		console.log("NO PLAYER START FOUND!");
 	} // end of carReset func
 
 	this.move = function() {

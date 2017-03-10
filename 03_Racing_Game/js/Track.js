@@ -58,6 +58,7 @@ function carTrackHandling(whichCar) {
 		
 		if(tileHere == TRACK_GOAL){
 			console.log(whichCar.name + " WINS!!!");
+			loadLevel(levelOne);
 		}
 			else if(tileHere != TRACK_ROAD) {
 			// next two lines added to fix car burrows into wall bug in video 9.6.
