@@ -30,13 +30,13 @@ const TRACK_FLAG = 5;
 
 
 
-function isObstacleAtColRow(col,row) {
+function returnTileTypeAtColRow(col,row) {
 	if(col >= 0 && col < Track_Cols && 
 	   row >=0 && row < Track_Rows) {
 		var trackIndexUnderCoord = rowColToArrayIndex(col, row);
-		return(trackGrid[trackIndexUnderCoord] != TRACK_ROAD);
+		return trackGrid[trackIndexUnderCoord];
 	} else {
-		return false;
+		return TRACK_WALL;
 	}
 }
 
@@ -51,9 +51,13 @@ function carTrackHandling(whichCar) {
 	// check to make sure car is within play area
 	if(carTrackCol >= 0 && carTrackCol < Track_Cols && 
 	   carTrackRow >=0 && carTrackRow < Track_Rows) {
-		
+		var tileHere = returnTileTypeAtColRow(carTrackCol, carTrackRow);
 		// if car hits wall reduce its speed and reverse it
-		if(isObstacleAtColRow(carTrackCol, carTrackRow)) {
+		
+		if(tileHere == TRACK_GOAL){
+			whichCar.speed *= -0.5;
+		}
+			else if(tileHere != TRACK_ROAD) {
 			// next two lines added to fix car burrows into wall bug in video 9.6.
 			// undoes car movement which got it onto the wall.
 			whichCar.x -= Math.cos(whichCar.ang) * whichCar.speed;
