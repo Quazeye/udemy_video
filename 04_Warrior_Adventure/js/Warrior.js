@@ -14,10 +14,10 @@ function warriorClass() {
 	this.myWarriorPic; // which picture to use
 	this.name = "Untitled Warrior";
 
-	this.keyHeld_Gas = false;
-	this.keyHeld_Reverse = false;
-	this.keyHeld_TurnLeft = false;
-	this.keyHeld_TurnRight = false;
+	this.keyHeld_North = false;
+	this.keyHeld_South = false;
+	this.keyHeld_West = false;
+	this.keyHeld_East = false;
 
 	this.controlKeyUp;
 	this.controlKeyRight;
@@ -54,17 +54,17 @@ function warriorClass() {
 	this.move = function() {
 		this.speed *= GROUNDSPEED_DECAY_MULT;
 
-		if(this.keyHeld_Gas) {
+		if(this.keyHeld_North) {
 			this.speed += DRIVE_POWER;
 		}
-		if(this.keyHeld_Reverse) {
+		if(this.keyHeld_South) {
 			this.speed -= REVERSE_POWER;
 		}
 		if(Math.abs(this.speed) > MIN_SPEED_TO_TURN) {
-			if(this.keyHeld_TurnLeft) {
+			if(this.keyHeld_West) {
 				this.ang -= TURN_RATE;
 			}
-			if(this.keyHeld_TurnRight) {
+			if(this.keyHeld_East) {
 				this.ang += TURN_RATE;
 			}
 		}
