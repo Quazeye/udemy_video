@@ -18,15 +18,7 @@ function imageLoadingDoneSoStartGame() {
 
 	setupInput();
 
-	loadLevel(levelList[levelNow]);
-}
-
-function nextLevel() {
-	levelNow++;
-	if(levelNow >= levelList.length) {
-		levelNow = 0;
-	}
-	loadLevel(levelList[levelNow]);
+	loadLevel(levelOne);
 }
 
 function loadLevel(whichLevel) {

@@ -24,8 +24,7 @@ function loadImageForWorldCode(worldCode, fileName) {
 
 function loadImages() {
 	var imageList = [
-		{varName: warriorPic, theFile: "player1warrior.png" },
-		{varName: otherWarriorPic, theFile: "player2warrior.png" },
+		{varName: warriorPic, theFile: "warrior.png" },
 		{worldType: WORLD_ROAD, theFile: "world_road.png" },
 		{worldType: WORLD_WALL, theFile: "world_wall.png" },
 		{worldType: WORLD_GOAL, theFile: "world_goal.png" },

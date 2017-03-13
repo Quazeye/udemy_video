@@ -1,9 +1,4 @@
-const GROUNDSPEED_DECAY_MULT = 0.94;
-const DRIVE_POWER = 0.5;
-const REVERSE_POWER = 0.2;
-const TURN_RATE = 0.06;
-const MIN_SPEED_TO_TURN = 0.5;
-
+const WALKING_SPEED = 3.0;
 
 function warriorClass() {
 
@@ -52,29 +47,35 @@ function warriorClass() {
 	} // end of warriorReset func
 
 	this.move = function() {
-		this.speed *= GROUNDSPEED_DECAY_MULT;
+		var nextX = this.x;
+		var nextY = this.y;
 
 		if(this.keyHeld_North) {
-			this.speed += DRIVE_POWER;
+			nextY -= WALKING_SPEED;
+		}
+		if(this.keyHeld_East) {
+			nextX += WALKING_SPEED;
 		}
 		if(this.keyHeld_South) {
-			this.speed -= REVERSE_POWER;
+			nextY += WALKING_SPEED;
 		}
-		if(Math.abs(this.speed) > MIN_SPEED_TO_TURN) {
-			if(this.keyHeld_West) {
-				this.ang -= TURN_RATE;
-			}
-			if(this.keyHeld_East) {
-				this.ang += TURN_RATE;
-			}
+		if(this.keyHeld_West) {
+			nextX -= WALKING_SPEED;
 		}
-		this.x += Math.cos(this.ang) * this.speed;
-		this.y += Math.sin(this.ang) * this.speed;
 
-			warriorWorldHandling(this);
+		var walkIntoTileIndex = getTileTypeAtPixelCoord(nextX, nextY);
+
+		if(walkIntoTileIndex == WORLD_GOAL) {
+			console.log(this.name + " WINS!");
+			loadLevel(levelOne)
+		} else if(walkIntoTileIndex == WORLD_ROAD) {
+			this.x = nextX;
+			this.y = nextY;
+		}
+		
 	}
 
 	this.draw = function() {
-		drawBitmapCenteredWithRotation(this.myWarriorPic, this.x, this.y, this.ang);	
+		drawBitmapCenteredWithRotation(this.myWarriorPic, this.x, this.y, 0);	
 	}
 }
