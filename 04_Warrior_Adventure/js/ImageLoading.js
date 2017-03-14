@@ -1,13 +1,12 @@
 var warriorPic = document.createElement("img");
-var otherWarriorPic = document.createElement("img");
-var worldPics = []; //array for world pics
+var worldPics = [];
 
-var picsToLoad = 0; //set automatically based on imageList in loadImages
+var picsToLoad = 0; // set automatically based on imageList in loadImages()
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
-	// console.log(picsToLoad);
-	if(picsToLoad == 0){
+	console.log(picsToLoad);
+	if(picsToLoad == 0) {
 		imageLoadingDoneSoStartGame();
 	}
 }
@@ -24,17 +23,18 @@ function loadImageForWorldCode(worldCode, fileName) {
 
 function loadImages() {
 	var imageList = [
-		{varName: warriorPic, theFile: "warrior.png" },
-		{worldType: WORLD_ROAD, theFile: "world_road.png" },
-		{worldType: WORLD_WALL, theFile: "world_wall.png" },
-		{worldType: WORLD_GOAL, theFile: "world_goal.png" },
-		{worldType: WORLD_TREE, theFile: "world_tree.png" },
-		{worldType: WORLD_FLAG, theFile: "world_flag.png" }
+		{varName: warriorPic, theFile: "warrior.png"},
+
+		{worldType: TILE_GROUND, theFile: "world_ground.png"},
+		{worldType: TILE_WALL, theFile: "world_wall.png"},
+		{worldType: TILE_GOAL, theFile: "world_goal.png"},
+		{worldType: TILE_KEY, theFile: "world_key.png"},
+		{worldType: TILE_DOOR, theFile: "world_door.png"}
 		];
 
-		picsToLoad = imageList.length;
+	picsToLoad = imageList.length;
 
-	for(var i=0; i<imageList.length; i++) {
+	for(var i=0;i<imageList.length;i++) {
 		if(imageList[i].varName != undefined) {
 			beginLoadingImage(imageList[i].varName, imageList[i].theFile);
 		} else {

@@ -8,65 +8,55 @@ const KEY_A = 65;
 const KEY_S = 83;
 const KEY_D = 68;
 
-
-
 var mouseX = 0;
 var mouseY = 0;
 
 function setupInput() {
-	// listen for mouse movement and sent it as an event to updateMousePos
 	canvas.addEventListener('mousemove', updateMousePos);
 
-	//listen for keyboard input
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 
-	// greenWarrior.setupInput(KEY_W, KEY_D, KEY_S, KEY_A);
 	blueWarrior.setupInput(KEY_UP_ARROW, KEY_RIGHT_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW);
-
-}
+} 
 
 function updateMousePos(evt) {
-	
-	// gets the canvas bounding rectangle and root document
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
 
-	// mouse X postition is equal to the mousemove evt clientX
-	// - the left bounding rectable (rect.left) - the root documents
-	// scroll left..
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
 
+	// cheat / hack to test car in any position
+	/*carX = mouseX;
+	carY = mouseY;
+	carSpeedX = 4;
+	carSpeedY = -4;*/
 }
 
-function keySet(keyEvent, whichWarrior, setTo) {
-	if(keyEvent.keyCode == whichWarrior.controlKeyLeft) {
-		whichWarrior.keyHeld_West = setTo;
+function keySet(keyEvent, setTo) {
+	if(keyEvent.keyCode == blueWarrior.controlKeyLeft) {
+		blueWarrior.keyHeld_West = setTo;
 	}
-	if(keyEvent.keyCode == whichWarrior.controlKeyRight) {
-		whichWarrior.keyHeld_East = setTo;
+	if(keyEvent.keyCode == blueWarrior.controlKeyRight) {
+		blueWarrior.keyHeld_East = setTo;
 	}
-	if(keyEvent.keyCode == whichWarrior.controlKeyUp) {
-		whichWarrior.keyHeld_North = setTo;
+	if(keyEvent.keyCode == blueWarrior.controlKeyUp) {
+		blueWarrior.keyHeld_North = setTo;
 	}
-	if(keyEvent.keyCode == whichWarrior.controlKeyDown) {
-		whichWarrior.keyHeld_South = setTo;
+	if(keyEvent.keyCode == blueWarrior.controlKeyDown) {
+		blueWarrior.keyHeld_South = setTo;
 	}
 }
 
 function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
-	// keySet(evt,greenWarrior,true);
-	keySet(evt,blueWarrior,true);
+	keySet(evt, true);
 
-	// evt.preventDefault();
+	evt.preventDefault();
 }
 
 function keyReleased(evt) {
-	// console.log("Key Released: "+evt.keyCode);
-	// keySet(evt,greenWarrior,false);
-	keySet(evt,blueWarrior,false);
-	
-	// evt.preventDefault();
+	// console.log("Key pressed: "+evt.keyCode);
+	keySet(evt, false);
 }

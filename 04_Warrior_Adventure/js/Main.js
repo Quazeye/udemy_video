@@ -1,7 +1,6 @@
 var canvas, canvasContext;
 
 var blueWarrior = new warriorClass();
-// var greenWarrior = new warriorClass();
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -12,6 +11,7 @@ window.onload = function() {
 
 	loadImages();
 }
+
 function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
@@ -23,7 +23,6 @@ function imageLoadingDoneSoStartGame() {
 
 function loadLevel(whichLevel) {
 	worldGrid = whichLevel.slice();
-	// greenWarrior.reset(otherWarriorPic, "Green Machine");
 	blueWarrior.reset(warriorPic, "Blue Storm");
 }
 
@@ -33,13 +32,10 @@ function updateAll() {
 }
 
 function moveAll() {
-	// greenWarrior.move();
 	blueWarrior.move();
 }
 
 function drawAll() {
-	// draw the warrior and worlds
-	drawWorlds();
-	// greenWarrior.draw();
+	drawWorld();
 	blueWarrior.draw();
-}
+} 

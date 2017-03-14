@@ -1,11 +1,8 @@
-const WALKING_SPEED = 3.0;
+const PLAYER_MOVE_SPEED = 3.0;
 
 function warriorClass() {
-
 	this.x = 75;
 	this.y = 75;
-	this.ang = 0;
-	this.speed = 0;
 	this.myWarriorPic; // which picture to use
 	this.name = "Untitled Warrior";
 
@@ -23,22 +20,20 @@ function warriorClass() {
 		this.controlKeyUp = upKey;
 		this.controlKeyRight = rightKey;
 		this.controlKeyDown = downKey;
-		this.controlKeyLeft =leftKey; 
+		this.controlKeyLeft = leftKey;
 	}
 
 	this.reset = function(whichImage, warriorName) {
 		this.name = warriorName;
 		this.myWarriorPic = whichImage;
-		this.speed = 0;
 
-		for(var eachRow=0; eachRow<World_Rows; eachRow++) {
-			for(var eachColumn=0; eachColumn<World_Cols; eachColumn++) {
-				var arrayIndex = rowColToArrayIndex(eachColumn, eachRow);
-				if(worldGrid[arrayIndex] == WORLD_PLAYERSTART) {
-					worldGrid[arrayIndex] = WORLD_ROAD;
-					this.ang = -Math.PI/2;  // starts with warrior facing north
-					this.x = eachColumn * World_W + World_W / 2;
-					this.y = eachRow * World_H + World_H / 2;
+		for(var eachRow=0;eachRow<WORLD_ROWS;eachRow++) {
+			for(var eachCol=0;eachCol<WORLD_COLS;eachCol++) {
+				var arrayIndex = rowColToArrayIndex(eachCol, eachRow); 
+				if(worldGrid[arrayIndex] == TILE_PLAYERSTART) {
+					worldGrid[arrayIndex] = TILE_GROUND;
+					this.x = eachCol * WORLD_W + WORLD_W/2;
+					this.y = eachRow * WORLD_H + WORLD_H/2;
 					return;
 				} // end of player start if
 			} // end of col for
@@ -51,31 +46,30 @@ function warriorClass() {
 		var nextY = this.y;
 
 		if(this.keyHeld_North) {
-			nextY -= WALKING_SPEED;
+			nextY -= PLAYER_MOVE_SPEED;
 		}
 		if(this.keyHeld_East) {
-			nextX += WALKING_SPEED;
+			nextX += PLAYER_MOVE_SPEED;
 		}
 		if(this.keyHeld_South) {
-			nextY += WALKING_SPEED;
+			nextY += PLAYER_MOVE_SPEED;
 		}
 		if(this.keyHeld_West) {
-			nextX -= WALKING_SPEED;
+			nextX -= PLAYER_MOVE_SPEED;
 		}
 
 		var walkIntoTileIndex = getTileTypeAtPixelCoord(nextX, nextY);
 
-		if(walkIntoTileIndex == WORLD_GOAL) {
+		if(walkIntoTileIndex == TILE_GOAL) {
 			console.log(this.name + " WINS!");
-			loadLevel(levelOne)
-		} else if(walkIntoTileIndex == WORLD_ROAD) {
+			loadLevel(levelOne);
+		} else if(walkIntoTileIndex == TILE_GROUND) {
 			this.x = nextX;
 			this.y = nextY;
 		}
-		
 	}
 
 	this.draw = function() {
-		drawBitmapCenteredWithRotation(this.myWarriorPic, this.x, this.y, 0);	
+		drawBitmapCenteredWithRotation(this.myWarriorPic, this.x,this.y, 0);
 	}
 }
